@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JavaScript Code Quiz</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+  </head>
+
+
+  <body>
+    <!-- header holding view results + Timer  -->
+    <header>
+      <section class= "card timer">
+        <div class = "timer-text"> Time : <span id = "timer-count">10</span> </div>
+      </section>
+      <section> 
+        <p> <span id="vwresults"> view results</span> </p>
+      </section>
+    </header>
+
+    <!-- Main section hosting pre-quiz, Quiz questions, results containers -->
+    <main>
+
+      <!-- pre quiz container -->
+      <section class = "pre-quiz-message" id="pqcontainer">
+      <h2>  Welcome to JavaScript Code Quiz </h2>
+        <p>
+          Click the button to get the quiz started!!
+        </p>
+        <button class="start-quiz" id="startQuizButton"> Start Quiz </button>
+      </section>
+      
+      <!-- results container -->
+      <section class ="results-container" id = 'rcontainer'> 
+      <h3> ALL DONE!! </h3>
+        <p> your score is <span id="final-score"> 100 </span></p>
+        <form id="form">
+          <input type="Enter Intials" id="intials-entered" placeholder="WM-S" />
+          <input type="submit" id="submit" value="Submit"/> 
+        </form>
+      </section>
+
+      <!-- Leader board -->
+      <section id = "high-scores-container">
+      <h3>High scores</h3>
+        <p id="leader-board"> <span id="initials">PH</span> : <span id="lbscore"> 100 </span> </p>
+        <br>
+        <button id="clear-button">Clear Score</button> 
+        <button class ="start-quiz" id = "goBackButton">Go back</button>
+      </section>
+
+      <!-- Quiz container -->
+      <section class="question-container" id = "qcontainer">
+        <div class="question-list" id="question">  Question goes here </div>
+         
+
+          <div><button class="option" id="op1" >option1</button></div>
+
+          <div><button class="option" id="op2" >option2</button></div>
+
+          <div><button class="option" id="op3">option3</button></div>
+
+          <div><button class="option" id="op4">option4</button></div>
+   
+        <div class="evalution"> </div>
+      </section>
+  </main>
+    <script src="./assets/js/script.js" ></script>
+  </body>
+</html>
