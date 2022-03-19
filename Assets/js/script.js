@@ -9,21 +9,13 @@ const Questions = [{
     ]
 
 },
+
 {
     q: "When a user views a page containing a JavaScript program, which machine actually executes the script?",
     a: [{ text: "The User's machine running a Web browser", isCorrect: true },
         { text: "The Web server", isCorrect: false },
         { text: "A central machine deep within Netscape's corporate offices", isCorrect: false },
         { text: "None of the above", isCorrect: false }
-    ]
-
-},
-{
-    q: "______ JavaScript is also called client-side JavaScript",
-    a: [{ text: "Microsoft", isCorrect: false },
-        { text: "Navigator", isCorrect: true },
-        { text: "LiveWire", isCorrect: false },
-        { text: "Native", isCorrect: false }
     ]
 
 },
@@ -69,6 +61,7 @@ const Questions = [{
 }
 
 ]
+
 //HTML Querying Elements
 var timerElement = document.getElementById("timer-count");
 var finalScore = document.getElementById("final-score");

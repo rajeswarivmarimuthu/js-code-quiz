@@ -1,9 +1,9 @@
-
+/* Declaring button color as root variable */
 :root {
   --purple: rgb(128,0,128);
 }
 
-
+/* General body font styling */
 body {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
@@ -15,7 +15,6 @@ header {
   height: 30px;
 }
 
-
 header .view-results{
   position: absolute;
   cursor: pointer;
@@ -26,7 +25,6 @@ header .card {
   position: absolute;
   right: 0;
 }
-
 
 /* Styling main contents */
 main {
@@ -48,7 +46,6 @@ input {
   margin: 2%;
 }
 
-
 /* Styling the all buttons */
 .option,
 button,
@@ -65,7 +62,6 @@ button,
 #submit,
 button:hover {
   opacity: 0.75;
-  /* box-shadow: 0px 2px 6px grey; */
 }
 
 /* giving an effect of clicking by adding shadow */
@@ -75,6 +71,7 @@ button:hover {
   box-shadow: 0px 2px 6px black;
 }
 
+/* Styling leader board  */
 #leader-board {
   color: black;
   background-color: lavender;
