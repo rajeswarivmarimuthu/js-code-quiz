@@ -1,45 +1,72 @@
 
 // Collections of questions 
 const Questions = [{
-    q: "What is capital of India?",
-    a: [{ text: "gandhinagar", isCorrect: false },
-        { text: "Surat", isCorrect: false },
-        { text: "Delhi", isCorrect: true },
-        { text: "mumbai", isCorrect: false }
+    q: "Why so JavaScript and Java have similar name?",
+    a: [{ text: "JavaScript is a stripped-down version of Java", isCorrect: false },
+        { text: "JavaScript's syntax is loosely based on Java's", isCorrect: true },
+        { text: "They both originated on the island of Java", isCorrect: false },
+        { text: "None of the above", isCorrect: false }
     ]
 
 },
 {
-    q: "What is the capital of Thailand?",
-    a: [{ text: "Lampang", isCorrect: false },
-        { text: "phuket", isCorrect: false },
-        { text: "Ayutthaya", isCorrect: false },
-        { text: "Bangkok", isCorrect: true }
+    q: "When a user views a page containing a JavaScript program, which machine actually executes the script?",
+    a: [{ text: "The User's machine running a Web browser", isCorrect: true },
+        { text: "The Web server", isCorrect: false },
+        { text: "A central machine deep within Netscape's corporate offices", isCorrect: false },
+        { text: "None of the above", isCorrect: false }
     ]
 
 },
 {
-    q: "What is the capital of Gujarat",
-    a: [{ text: "surat", isCorrect: false },
-        { text: "vadodara", isCorrect: false },
-        { text: "gandhinagar", isCorrect: true },
-        { text: "rajkot", isCorrect: false }
+    q: "______ JavaScript is also called client-side JavaScript",
+    a: [{ text: "Microsoft", isCorrect: false },
+        { text: "Navigator", isCorrect: true },
+        { text: "LiveWire", isCorrect: false },
+        { text: "Native", isCorrect: false }
     ]
 
 },
 
 {
-    q: "What is the capital of Washington",
-    a: [{ text: "Seattle", isCorrect: true },
-        { text: "Chicago", isCorrect: false },
-        { text: "Salem", isCorrect: false },
-        { text: "West", isCorrect: false }
+    q: "__________ JavaScript is also called server-side JavaScript",
+    a: [{ text: "Microsoft", isCorrect: false },
+        { text: "Navigator", isCorrect: false },
+        { text: "LiveWire", isCorrect: true },
+        { text: "Native", isCorrect: false }
+    ]
+
+},
+
+{
+    q: "_____ JavaScript statements embedded in an HTML page can respond to user events such as mouse-clicks, form input, and page navigation",
+    a: [{ text: "Client-side", isCorrect: true },
+        { text: "Server-side", isCorrect: false },
+        { text: "Local", isCorrect: false },
+        { text: "Native", isCorrect: false }
+    ]
+
+},
+
+{
+    q: "What are variables used for in JavaScript Programs?",
+    a: [{ text: "Storing numbers, dates, or other values", isCorrect: true },
+        { text: "Varying randomly", isCorrect: false },
+        { text: "Causing high-school algebra flashbacks", isCorrect: false },
+        { text: "None of the above", isCorrect: false }
+    ]
+
+},
+
+{
+    q: "Which of the following can't be done with client-side JavaScript?",
+    a: [{ text: "Validating a form", isCorrect: false },
+        { text: "Sending a form's contents by email", isCorrect: false },
+        { text: "Storing the form's contents to a database file on the server", isCorrect: true },
+        { text: "None of the above", isCorrect: false }
     ]
 
 }
-
-
-
 
 ]
 //HTML Querying Elements
@@ -50,7 +77,7 @@ var userInitials = document.getElementById ("initials");
 
 var resultsEl =document.getElementById("rcontainer");
 var questionsEl = document.getElementById("qcontainer");
-var leaderBoardEl = document.getElementById ("high-scores-container");
+var leaderBoardEl = document.getElementById ("scontainer");
 var preQuizEl = document.getElementById ("pqcontainer");
 var leaderDisplay = document.getElementById("leader-board");
 
@@ -59,9 +86,10 @@ var goBackButton = document.getElementById ("goBackButton");
 var submitButton = document.getElementById("submit");
 var clearButton = document.getElementById ("clear-button");
 var viewResultsEl = document.getElementById("vwresults");
+var showRight = document.getElementById ("accuracy");
+var partition = document. getElementById ("partition");
 
 //Initialing the start variable to true
-let start = true;
 let id = 0;
 let score = 0;
 let timerCount = 0;
@@ -69,7 +97,7 @@ let timer;
 let timer_reduce;
 let lastQuestion = false;
 
-
+// Init function that loads the first page
 function init () {
     preQuizEl.style.display = 'block';
     questionsEl.style.display = 'none';
@@ -77,20 +105,19 @@ function init () {
     leaderBoardEl.style.display = 'none';
 }
 
+//starts the quiz
 function startQuiz() {
     console.log('started');
-    if (start) {
-        timerCount = 20;
+        timerCount = 120;
         id = 0;
         score = 0;
         lastQuestion = false;
         startTimer();
         renderQuestions(0);
-    }
 }
 
+// Function that starts start timer 
 function startTimer() {
-//sets timer
 timer = setInterval(function() {
     timerElement.textContent = timerCount;
     timerCount--;
@@ -100,31 +127,14 @@ timer = setInterval(function() {
        displayResults();
     }
 },1000);
-console.log ('timer id in start' + timer);
-
 }
-
-// reduce time function declaration that will called when answers are wrong!
-// function reduceTime() {
-
-//     timer_reduce = setInterval(function() {
-//         timerElement.textContent = timerCount;
-//         timerCount = timerCount - 2;
-//         console.log ('timer count in reduce timer' + timerCount);
-//         if (timerCount <= 0) {
-//             console.log('printing inside reduce time : ' + timerCount);
-//             clearInterval(timer_reduce);
-//             displayResults();
-//         }
-//     },1000);
-//     console.log ('timer id in reduce' + timer);
-// }
 
 
 //declaring and defining the function to loop through questions
 
 function renderQuestions(increment){
   
+    // Setting the index to retrieve the next question
     id = id + increment;
     console.log('index:' + id);
     if (id == Questions.length - 1) {
@@ -136,13 +146,13 @@ function renderQuestions(increment){
     resultsEl.style.display = 'none';
     leaderBoardEl.style.display = 'none';
 
+
     //populating the question in the quiz
     const question = document.getElementById('question');
     question.textContent = Questions[id].q;
 
-
     //population the options in the quiz
-  //  console.log (Questions[id].a[0].text);
+    //  console.log (Questions[id].a[0].text);
     const op1 = document.getElementById('op1');
     op1.textContent = Questions[id].a[0].text;
 
@@ -154,6 +164,7 @@ function renderQuestions(increment){
 
     const op4 = document.getElementById("op4");
     op4.innerText = Questions[id].a[3].text;
+
 }
 
 // Validate if the answer is correct 
@@ -162,6 +173,7 @@ function evaluateAnswer(event){
     event.preventDefault();
     let selected = event.target.id;
     let isSelectedCorrect;
+
     //console.log ("selected: " + selected);
     if (selected == "op1") {
         isSelectedCorrect = Questions[id].a[0].isCorrect;
@@ -176,8 +188,14 @@ function evaluateAnswer(event){
 
     if (isSelectedCorrect) {
         score += 1;
+        partition.innerText = '----------------------------------------';
+        showRight.innerText = 'Correct!!';
+        showRight.style.fontStyle = "italic";
     } else {
-    // reduce time by 2 seconds when answer is incorrect
+        // reduce time by 2 seconds when answer is incorrect
+        partition.innerText = '----------------------------------------';
+        showRight.innerText = 'Wrong!!';
+        showRight.style.fontStyle = "italic";
         if (timerCount > 1) {
             timerCount -= 2;
         } else {
@@ -190,6 +208,7 @@ function evaluateAnswer(event){
 function nextQuestion(event) {
     event.preventDefault();
     event.stopPropagation();
+
     //console.log ('id in next ' + id)
     if (id <= Questions.length - 1 && !lastQuestion)  {
     renderQuestions(1);

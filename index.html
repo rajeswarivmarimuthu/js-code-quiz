@@ -11,7 +11,7 @@
 
   <body>
     <!-- header holding view results + Timer  -->
-    <header>
+    <header >
       <div class = "view-results" id="vwresults"> view results </div>
 
       <div class= "card timer">
@@ -43,12 +43,13 @@
       </section>
 
       <!-- Leader board -->
-      <section id = "high-scores-container">
+      <section class = "#high-scores-container" id = "scontainer">
       <h3>High scores</h3>
-        <p id="leader-board"> <span id="initials">PH</span> : <span id="lbscore"> 100 </span> </p>
-        <br>
-        <button id="clear-button">Clear Score</button> 
-        <button class ="start-quiz" id = "goBackButton">Go back</button>
+        <p id="leader-board"> <span id="initials">PH</span> : <span id="lbscore"> 00 </span> </p>
+        <div id="sButtonContainer">
+          <button id="clear-button">Clear Score</button> 
+          <button id = "goBackButton">Go back</button>
+        </div>
       </section>
 
       <!-- Quiz container -->
@@ -64,7 +65,10 @@
 
           <div><button class="option" id="op4">option4</button></div>
    
-        <div class="evalution"> </div>
+        <div> 
+          <p id = "partition"> </p>
+          <p id = "accuracy"> </p>
+        </div>
       </section>
   </main>
     <script src="./assets/js/script.js" ></script>
