@@ -1,7 +1,6 @@
 
 // Collections of questions 
 const Questions = [{
-    id: 0,
     q: "What is capital of India?",
     a: [{ text: "gandhinagar", isCorrect: false },
         { text: "Surat", isCorrect: false },
@@ -11,9 +10,8 @@ const Questions = [{
 
 },
 {
-    id: 1,
     q: "What is the capital of Thailand?",
-    a: [{ text: "Lampang", isCorrect: false, isSelected: false },
+    a: [{ text: "Lampang", isCorrect: false },
         { text: "phuket", isCorrect: false },
         { text: "Ayutthaya", isCorrect: false },
         { text: "Bangkok", isCorrect: true }
@@ -21,7 +19,6 @@ const Questions = [{
 
 },
 {
-    id: 2,
     q: "What is the capital of Gujarat",
     a: [{ text: "surat", isCorrect: false },
         { text: "vadodara", isCorrect: false },
@@ -29,7 +26,20 @@ const Questions = [{
         { text: "rajkot", isCorrect: false }
     ]
 
+},
+
+{
+    q: "What is the capital of Washington",
+    a: [{ text: "Seattle", isCorrect: true },
+        { text: "Chicago", isCorrect: false },
+        { text: "Salem", isCorrect: false },
+        { text: "West", isCorrect: false }
+    ]
+
 }
+
+
+
 
 ]
 //HTML Querying Elements
@@ -51,11 +61,13 @@ var clearButton = document.getElementById ("clear-button");
 var viewResultsEl = document.getElementById("vwresults");
 
 //Initialing the start variable to true
-var start = true;
-var id = 0;
-var score = 0;
-var timerCount = 0;
-var timer;
+let start = true;
+let id = 0;
+let score = 0;
+let timerCount = 0;
+let timer;
+let timer_reduce;
+let lastQuestion = false;
 
 
 function init () {
@@ -70,7 +82,8 @@ function startQuiz() {
     if (start) {
         timerCount = 20;
         id = 0;
-        score =0;
+        score = 0;
+        lastQuestion = false;
         startTimer();
         renderQuestions(0);
     }
@@ -81,24 +94,31 @@ function startTimer() {
 timer = setInterval(function() {
     timerElement.textContent = timerCount;
     timerCount--;
+    console.log ('timer count in start timer' + timerCount);
     if (timerCount <= 0) {
-        clearInterval(timer);
-        displayResults(); 
+       clearInterval(timer);
+       displayResults();
     }
 },1000);
+console.log ('timer id in start' + timer);
+
 }
 
 // reduce time function declaration that will called when answers are wrong!
-function reduceTime() {
-    timer = setInterval(function() {
-        timerCount = timerCount - 2;
-        timerElement.textContent = timerCount;
-        if (timerCount <= 0) {
-            clearInterval(timer);
-            displayResults(); 
-        }
-    },1000);
-}
+// function reduceTime() {
+
+//     timer_reduce = setInterval(function() {
+//         timerElement.textContent = timerCount;
+//         timerCount = timerCount - 2;
+//         console.log ('timer count in reduce timer' + timerCount);
+//         if (timerCount <= 0) {
+//             console.log('printing inside reduce time : ' + timerCount);
+//             clearInterval(timer_reduce);
+//             displayResults();
+//         }
+//     },1000);
+//     console.log ('timer id in reduce' + timer);
+// }
 
 
 //declaring and defining the function to loop through questions
@@ -107,10 +127,8 @@ function renderQuestions(increment){
   
     id = id + increment;
     console.log('index:' + id);
-
-    if (id > Questions.length - 1 ) {
-        displayResults();
-        return;
+    if (id == Questions.length - 1) {
+       lastQuestion = true;
     }
 
     preQuizEl.style.display = "none";
@@ -124,7 +142,7 @@ function renderQuestions(increment){
 
 
     //population the options in the quiz
-    console.log (Questions[id].a[0].text);
+  //  console.log (Questions[id].a[0].text);
     const op1 = document.getElementById('op1');
     op1.textContent = Questions[id].a[0].text;
 
@@ -144,10 +162,10 @@ function evaluateAnswer(event){
     event.preventDefault();
     let selected = event.target.id;
     let isSelectedCorrect;
-    console.log ("selected: " + selected);
+    //console.log ("selected: " + selected);
     if (selected == "op1") {
         isSelectedCorrect = Questions[id].a[0].isCorrect;
-        console.log (' Option 1');
+       // console.log (' Option 1');
     } else if (selected == "op2") {
         isSelectedCorrect = Questions[id].a[1].isCorrect;
     } else if (selected == "op3") {
@@ -160,7 +178,11 @@ function evaluateAnswer(event){
         score += 1;
     } else {
     // reduce time by 2 seconds when answer is incorrect
-        reduceTime();
+        if (timerCount > 1) {
+            timerCount -= 2;
+        } else {
+            displayResults();
+        }
     }
 }
 
@@ -168,8 +190,8 @@ function evaluateAnswer(event){
 function nextQuestion(event) {
     event.preventDefault();
     event.stopPropagation();
-    console.log ('id in next ' + id)
-    if (id <= Questions.length - 1) {
+    //console.log ('id in next ' + id)
+    if (id <= Questions.length - 1 && !lastQuestion)  {
     renderQuestions(1);
     } else {
             displayResults();
@@ -178,10 +200,12 @@ function nextQuestion(event) {
 
 // Display results at the end of the quiz or when timer is done
 function displayResults() {
-    timerCount = 0;
+        timerCount = 0;
         timerElement.textContent = timerCount;
-        if (timerCount === 0) {
-            clearInterval(timer);}
+       if (timerCount <= 0) {
+            clearInterval(timer);
+            timer = null;
+        }
     console.log(resultsEl)
     leaderBoardEl.style.display = 'none';
     questionsEl.style.display = 'none';
@@ -194,6 +218,7 @@ function displayResults() {
 //display user and score pulling from local Storage
 function viewResults(event) {
     event.preventDefault();
+    event.stopPropagation();
     leaderBoardScore.textContent = localStorage.getItem("userScore");
     userInitials.textContent = localStorage.getItem("userInitials"); 
     questionsEl.style.display = 'none';
@@ -206,6 +231,7 @@ function viewResults(event) {
 //Clearing leader board score
 function clearResults(event) {
     event.preventDefault();
+    event.stopPropagation();
     questionsEl.style.display = 'none';
     preQuizEl.style.display = "none";
     resultsEl.style.display = 'none';
@@ -216,7 +242,6 @@ function clearResults(event) {
 
 //Initial pageload 
 init ();
-
 
 
 // Start button

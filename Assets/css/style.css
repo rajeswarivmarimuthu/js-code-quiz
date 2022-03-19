@@ -3,21 +3,38 @@ body {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+/* Styling the header contents view results and Timer  */
 header {
   display: flex;
-  justify-content: flex-end;
+  position: relative;
 }
 
+
+header .view-results{
+  position: absolute;
+  cursor: pointer;
+  left: 0;
+}
+
+header .card {
+  position: absolute;
+  right: 0;
+}
+
+
+/* Styling main contents */
 main {
   display: flex;
   align-content: center;
   justify-content: center;
 }
 
+/* Styling the options button */
 .option {
-  background-color: burlywood;
+  background-color: purple;
+  color: white;
   border-radius: 8%;
-  border-color: burlywood;
+  border-color: purple;
   margin: 2%
 }
 
