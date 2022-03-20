@@ -83,7 +83,7 @@ var showRight = document.getElementById ("accuracy");
 var partition = document. getElementById ("partition");
 var timeTakenEl = document.getElementById ("timeTaken");
 
-//Initialing the start variable to true
+//Initialing global variables
 let id = 0;
 let score = 0;
 let timerCount = 0;
@@ -101,7 +101,7 @@ function init () {
     leaderBoardEl.style.display = 'none';
 }
 
-//starts the quiz
+//Function to start the quiz
 function startQuiz() {
     console.log('started');
         timerCount = 120;
