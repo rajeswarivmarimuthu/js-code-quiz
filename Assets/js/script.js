@@ -1,5 +1,5 @@
 
-// Collections of questions 
+// Collections of all questions 
 const Questions = [{
     q: "Why so JavaScript and Java have similar name?",
     a: [{ text: "JavaScript is a stripped-down version of Java", isCorrect: false },
@@ -81,17 +81,20 @@ var clearButton = document.getElementById ("clear-button");
 var viewResultsEl = document.getElementById("vwresults");
 var showRight = document.getElementById ("accuracy");
 var partition = document. getElementById ("partition");
+var timeTakenEl = document.getElementById ("timeTaken");
 
 //Initialing the start variable to true
 let id = 0;
 let score = 0;
 let timerCount = 0;
 let timer;
-let timer_reduce;
+let timeTaken;
 let lastQuestion = false;
+let result;
 
 // Init function that loads the first page
 function init () {
+    timerElement.textContent = 00;
     preQuizEl.style.display = 'block';
     questionsEl.style.display = 'none';
     resultsEl.style.display = 'none';
@@ -112,13 +115,16 @@ function startQuiz() {
 // Function that starts start timer 
 function startTimer() {
 timer = setInterval(function() {
-    timerElement.textContent = timerCount;
-    timerCount--;
-    console.log ('timer count in start timer' + timerCount);
+    // console.log ('timer count in start timer' + timerCount);
     if (timerCount <= 0) {
        clearInterval(timer);
+       timer = null;
        displayResults();
+    } else { 
+        timerElement.textContent = timerCount;
     }
+    timerCount--;
+
 },1000);
 }
 
@@ -139,13 +145,11 @@ function renderQuestions(increment){
     resultsEl.style.display = 'none';
     leaderBoardEl.style.display = 'none';
 
-
     //populating the question in the quiz
     const question = document.getElementById('question');
     question.textContent = Questions[id].q;
 
     //population the options in the quiz
-    //  console.log (Questions[id].a[0].text);
     const op1 = document.getElementById('op1');
     op1.textContent = Questions[id].a[0].text;
 
@@ -157,6 +161,9 @@ function renderQuestions(increment){
 
     const op4 = document.getElementById("op4");
     op4.innerText = Questions[id].a[3].text;
+
+    partition.innerText = ''
+    showRight.innerText = '';
 
 }
 
@@ -181,49 +188,68 @@ function evaluateAnswer(event){
 
     if (isSelectedCorrect) {
         score += 1;
-        partition.innerText = '----------------------------------------';
-        showRight.innerText = 'Correct!!';
-        showRight.style.fontStyle = "italic";
+        result = "Correct";
     } else {
         // reduce time by 2 seconds when answer is incorrect
-        partition.innerText = '----------------------------------------';
-        showRight.innerText = 'Wrong!!';
-        showRight.style.fontStyle = "italic";
+        result = "Wrong!!!";
         if (timerCount > 1) {
             timerCount -= 2;
         } else {
             displayResults();
         }
     }
+
+    isAnswerCorrect();
 }
 
-// Upon selection of answer forwarding to next question 
-function nextQuestion(event) {
-    event.preventDefault();
-    event.stopPropagation();
 
-    //console.log ('id in next ' + id)
+// Show the questions plus if the selected answer is correct
+function isAnswerCorrect() {
+    const question = document.getElementById('question');
+    question.textContent = Questions[id].q;
+
+    const op1 = document.getElementById('op1');
+    op1.textContent = Questions[id].a[0].text;
+
+    const op2 = document.getElementById("op2");
+    op2.innerText = Questions[id].a[1].text;
+
+    const op3 = document.getElementById("op3");
+    op3.innerText = Questions[id].a[2].text;
+
+    const op4 = document.getElementById("op4");
+    op4.innerText = Questions[id].a[3].text;
+
+    partition.innerText = '----------------------------------------';
+    showRight.innerText = result;
+    showRight.style.fontStyle = "italic";
+
+
+    setTimeout(nextQuestion,500);
+}
+
+//function to call next question
+function nextQuestion() {
+
     if (id <= Questions.length - 1 && !lastQuestion)  {
-    renderQuestions(1);
+     renderQuestions(1);
     } else {
             displayResults();
     }
 }
 
+
 // Display results at the end of the quiz or when timer is done
 function displayResults() {
-        timerCount = 0;
-        timerElement.textContent = timerCount;
-       if (timerCount <= 0) {
-            clearInterval(timer);
-            timer = null;
-        }
-    console.log(resultsEl)
+    timerElement.textContent = timerCount;
+    finalScore.textContent = timerCount;
+    timeTaken = timerCount;
+    clearInterval(timer);
     leaderBoardEl.style.display = 'none';
     questionsEl.style.display = 'none';
     preQuizEl.style.display = "none";
     resultsEl.style.display = 'block';
-    finalScore.textContent = score;
+    
 }
 
 
@@ -233,6 +259,8 @@ function viewResults(event) {
     event.stopPropagation();
     leaderBoardScore.textContent = localStorage.getItem("userScore");
     userInitials.textContent = localStorage.getItem("userInitials"); 
+    timeTakenEl.textContent = localStorage.getItem("timeTaken");
+
     questionsEl.style.display = 'none';
     preQuizEl.style.display = "none";
     resultsEl.style.display = 'none';
@@ -255,23 +283,16 @@ function clearResults(event) {
 //Initial pageload 
 init ();
 
-
 // Start button
-startButton.addEventListener ("click", startQuiz, false);
 goBackButton.addEventListener ("click", init, false);
+startButton.addEventListener ("click", startQuiz, false);
 
 // Capturing user actions!
 op1.addEventListener("click",evaluateAnswer,false);
-op1.addEventListener("click",nextQuestion,false);
-
 op2.addEventListener("click",evaluateAnswer,false);
-op2.addEventListener("click",nextQuestion,false);
-
 op3.addEventListener("click",evaluateAnswer,false);
-op3.addEventListener("click",nextQuestion,false);
-
 op4.addEventListener("click",evaluateAnswer,false);
-op4.addEventListener("click",nextQuestion,false);
+
 
 // Capturing initials and final score in localStorage 
 submitButton.addEventListener("click", function(event){
@@ -285,6 +306,7 @@ submitButton.addEventListener("click", function(event){
     }
     localStorage.setItem("userInitials", userInputInitials);
     localStorage.setItem("userScore", score);
+    localStorage.setItem("timeTaken", timeTaken);
   
 }, false);
 
